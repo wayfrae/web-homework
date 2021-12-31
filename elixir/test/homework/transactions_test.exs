@@ -1,17 +1,20 @@
 defmodule Homework.TransactionsTest do
   use Homework.DataCase
 
-  alias Ecto.UUID
   alias Homework.Merchants
   alias Homework.Transactions
   alias Homework.Users
+  alias Homework.Companies
 
   describe "transactions" do
     alias Homework.Transactions.Transaction
 
     setup do
       {:ok, merchant1} =
-        Merchants.create_merchant(%{description: "some description", name: "some name"})
+        Merchants.create_merchant(%{
+          description: "some description",
+          name: "some name"
+          })
 
       {:ok, merchant2} =
         Merchants.create_merchant(%{
@@ -19,18 +22,26 @@ defmodule Homework.TransactionsTest do
           name: "some updated name"
         })
 
+      {:ok, company1} =
+        Companies.create_company(%{
+          name: "Big Company",
+          credit_line: 1_000_000_000
+        })
+
       {:ok, user1} =
         Users.create_user(%{
           dob: "some dob",
           first_name: "some first_name",
-          last_name: "some last_name"
+          last_name: "some last_name",
+          company_id: company1.id
         })
 
       {:ok, user2} =
         Users.create_user(%{
           dob: "some updated dob",
           first_name: "some updated first_name",
-          last_name: "some updated last_name"
+          last_name: "some updated last_name",
+          company_id: company1.id
         })
 
       valid_attrs = %{

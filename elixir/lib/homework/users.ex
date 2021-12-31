@@ -7,6 +7,7 @@ defmodule Homework.Users do
   alias Homework.Repo
 
   alias Homework.Users.User
+  alias Homework.Schema.Helpers
 
   @doc """
   Returns the list of users.
@@ -17,8 +18,23 @@ defmodule Homework.Users do
       [%User{}, ...]
 
   """
-  def list_users(_args) do
-    Repo.all(User)
+  def list_users(args) do
+    Helpers.process_args(User, args)
+  end
+
+  @doc """
+  Returns the list of users for a specific company
+
+  ## Examples
+
+      iex> list_users(%Company{}, [])
+      [%User{}, ...]
+
+  """
+  def list_users(company, args) do
+    query = from u in User,
+      where: u.company_id == type(^company.id, :binary_id)
+    Helpers.process_args(query, args)
   end
 
   @doc """

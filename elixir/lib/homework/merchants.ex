@@ -7,9 +7,9 @@ defmodule Homework.Merchants do
   alias Homework.Repo
 
   alias Homework.Merchants.Merchant
-
+  alias Homework.Schema.Helpers
   @doc """
-  Returns the list of merchants.
+  Returns the list of merchants using the given args.
 
   ## Examples
 
@@ -17,8 +17,8 @@ defmodule Homework.Merchants do
       [%Merchant{}, ...]
 
   """
-  def list_merchants(_args) do
-    Repo.all(Merchant)
+  def list_merchants(args) do
+    Helpers.process_args(Merchant, args)
   end
 
   @doc """
