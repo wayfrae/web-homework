@@ -5,6 +5,7 @@ defmodule HomeworkWeb.Schemas.UsersSchema do
   use Absinthe.Schema.Notation
 
   alias HomeworkWeb.Resolvers.UsersResolver
+  alias HomeworkWeb.Resolvers.TransactionsResolver
 
   object :user do
     field(:id, non_null(:id))

@@ -4,15 +4,11 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
   alias Homework.Companies.Company
 
   @doc """
-  Get a list of users with the given company
+  Get a list of users
   """
   def users(%Company{} = company, args, _info) do
     {:ok, Users.list_users(company, args)}
   end
-
-  @doc """
-  Get a list of users
-  """
   def users(_root, args, _info) do
     {:ok, Users.list_users(args)}
   end
