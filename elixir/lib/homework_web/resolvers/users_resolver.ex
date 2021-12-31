@@ -7,8 +7,6 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
   Get a list of users with the given company
   """
   def users(%Company{} = company, args, _info) do
-    IO.puts("$$$$$$$$$$$$$$$$$$$$$")
-
     {:ok, Users.list_users(company, args)}
   end
 
@@ -16,7 +14,6 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
   Get a list of users
   """
   def users(_root, args, _info) do
-    IO.puts("$$$$$$$$$$$$$$$$$$$$$")
     {:ok, Users.list_users(args)}
   end
 

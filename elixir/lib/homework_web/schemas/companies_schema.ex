@@ -13,8 +13,8 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
   object :company do
     field(:id, non_null(:id))
     field(:name, :string)
-    field(:credit_line, :integer)
-    field :available_credit, :integer do
+    field(:credit_line, :float)
+    field :available_credit, :float do
       resolve fn company, _, _ ->
         {_, sum} = TransactionsResolver.sum_transactions(company)
         {:ok, company.credit_line - sum}
@@ -42,6 +42,10 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
       arg(:skip, :integer)
       @desc "The number of results to get"
       arg(:limit, :integer)
+      @desc "The minimum amount for returned transactions (in cents)"
+      arg(:min, :integer)
+      @desc "The maximum amount for returned transactions (in cents)"
+      arg(:max, :integer)
       resolve(&TransactionsResolver.transactions/3)
     end
   end

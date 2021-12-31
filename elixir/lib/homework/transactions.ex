@@ -49,15 +49,6 @@ defmodule Homework.Transactions do
     |> Repo.one
   end
 
-  @doc """
-  Returns the ecto query to get transactions for a specific company
-
-  ## Examples
-
-      iex> list_transactions(company_id)
-      Ecto.Query
-
-  """
   defp get_transactions_by_company_query(company_id) do
     from t in Transaction,
       join: u in User, on: t.user_id == u.id,

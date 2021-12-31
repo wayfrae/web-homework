@@ -21,6 +21,10 @@ defmodule HomeworkWeb.Schema do
       arg(:skip, :integer)
       @desc "The number of results to get"
       arg(:limit, :integer)
+      @desc "The minimum amount for returned transactions (in cents)"
+      arg(:min, :integer)
+      @desc "The maximum amount for returned transactions (in cents)"
+      arg(:max, :integer)
       resolve(&TransactionsResolver.transactions/3)
     end
 
