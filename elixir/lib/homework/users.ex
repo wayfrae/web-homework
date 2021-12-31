@@ -32,7 +32,6 @@ defmodule Homework.Users do
 
   """
   def list_users(company, args) do
-    IO.puts("$$$$$$$$$$$$$$$$$$$$$")
     query = from u in User,
       where: u.company_id == type(^company.id, :binary_id)
     Helpers.process_args(query, args)
