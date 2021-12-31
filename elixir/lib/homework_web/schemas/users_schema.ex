@@ -11,8 +11,25 @@ defmodule HomeworkWeb.Schemas.UsersSchema do
     field(:dob, :string)
     field(:first_name, :string)
     field(:last_name, :string)
+    field(:company_id, :id)
     field(:inserted_at, :naive_datetime)
     field(:updated_at, :naive_datetime)
+
+    field(:company, :company) do
+      resolve(&UsersResolver.company/3)
+    end
+
+    field :transactions, list_of(:transaction) do
+      @desc "The id to get"
+      arg(:id, :id)
+      @desc "The list of ids to get"
+      arg(:ids, list_of(:id))
+      @desc "The number of results to skip"
+      arg(:skip, :integer)
+      @desc "The number of results to get"
+      arg(:limit, :integer)
+      resolve(&TransactionsResolver.transactions/3)
+    end
   end
 
   object :user_mutations do

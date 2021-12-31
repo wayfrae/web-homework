@@ -7,18 +7,61 @@ defmodule Homework.Transactions do
   alias Homework.Repo
 
   alias Homework.Transactions.Transaction
+  alias Homework.Companies.Company
+  alias Homework.Users.User
+  alias Homework.Pagination.Paginator
+  alias Homework.Schema.Helpers
+  alias HomeworkWeb.Schemas.Pagination.Page
 
   @doc """
-  Returns the list of transactions.
+  Returns the list of transactions using the given args.
+  """
+  def list_transactions(args) do
+    Helpers.process_args(Transaction, args)
+  end
+
+  @doc """
+  Returns the list of transactions for a specific company
 
   ## Examples
 
-      iex> list_transactions([])
+      iex> list_transactions(%Company{}, [])
       [%Transaction{}, ...]
 
   """
-  def list_transactions(_args) do
-    Repo.all(Transaction)
+  def list_transactions(company_id, args) do
+    get_transactions_by_company_query(company_id)
+    |> Helpers.process_args(args)
+  end
+
+  @doc """
+  Sums all transactions for a specific company
+
+  ## Examples
+
+      iex> sum_transactions(%Company{})
+      1234567
+
+  """
+  def sum_transactions(%Company{} = company) do
+    (from q in get_transactions_by_company_query(company.id),
+    select: sum(q.amount))
+    |> Repo.one
+  end
+
+  @doc """
+  Returns the ecto query to get transactions for a specific company
+
+  ## Examples
+
+      iex> list_transactions(company_id)
+      Ecto.Query
+
+  """
+  defp get_transactions_by_company_query(company_id) do
+    from t in Transaction,
+      join: u in User, on: t.user_id == u.id,
+      where: u.company_id == type(^company_id, :binary_id)
   end
 
   @doc """

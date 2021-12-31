@@ -1,11 +1,30 @@
 defmodule HomeworkWeb.Resolvers.UsersResolver do
   alias Homework.Users
+  alias Homework.Companies
+  alias Homework.Companies.Company
+
+  @doc """
+  Get a list of users with the given company
+  """
+  def users(%Company{} = company, args, _info) do
+    IO.puts("$$$$$$$$$$$$$$$$$$$$$")
+
+    {:ok, Users.list_users(company, args)}
+  end
 
   @doc """
   Get a list of users
   """
   def users(_root, args, _info) do
+    IO.puts("$$$$$$$$$$$$$$$$$$$$$")
     {:ok, Users.list_users(args)}
+  end
+
+  @doc """
+  Get the company associated with the user
+  """
+  def company(_root, _args, %{source: %{company_id: company_id}}) do
+    {:ok, Companies.get_company!(company_id)}
   end
 
   @doc """
